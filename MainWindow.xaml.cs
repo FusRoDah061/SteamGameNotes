@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SteamGameNotes.Service;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SteamGameNotes
 {
@@ -31,9 +21,13 @@ namespace SteamGameNotes
             TxtSearchGame.Text = TxtSearchGame.Tag.ToString();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(TxtSearchGame.Text);
+            var steamService = new SteamService();
+
+            var game = await steamService.GetSteamApp(TxtSearchGame.Text);
+
+            MessageBox.Show(game.appid.ToString());
         }
 
         private void TxtSearchGame_LostFocus(object sender, RoutedEventArgs e)

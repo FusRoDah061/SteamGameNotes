@@ -20,7 +20,6 @@
             CharacterCasing="Upper" 
             Tag="Search game"
             IsUndoEnabled="False"
-            TextChanged="TxtSearchGame_TextChanged" 
             Panel.ZIndex="1" 
             LostFocus="TxtSearchGame_LostFocus" 
             GotFocus="TxtSearchGame_GotFocus">
