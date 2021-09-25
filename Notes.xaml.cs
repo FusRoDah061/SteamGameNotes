@@ -1,4 +1,5 @@
 ﻿using SteamGameNotes.DTO;
+using SteamGameNotes.Service;
 using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -7,6 +8,9 @@ namespace SteamGameNotes
 {
     public partial class Notes : Window
     {
+        private GamesService _gameService = new GamesService();
+        private SteamAppDto _game = null;
+
         public Notes()
         {
             InitializeComponent();
@@ -15,6 +19,8 @@ namespace SteamGameNotes
         public Notes(SteamAppDto game)
         {
             InitializeComponent();
+
+            _game = game;
 
             LblGameName.Text = game.name;
 
@@ -35,6 +41,24 @@ namespace SteamGameNotes
             mainWindow.Top = this.Top;
             mainWindow.Show();
             Close();
+        }
+
+        private async void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            await _gameService.SaveNotes(_game.appid, TxtNotes.Text);
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string notes = await _gameService.GetNotes(_game.appid);
+                TxtNotes.Text = notes;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

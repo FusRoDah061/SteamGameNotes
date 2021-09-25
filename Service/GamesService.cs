@@ -9,6 +9,7 @@ namespace SteamGameNotes.Service
     public class GamesService
     {
         private GamesRepository _gamesRepository = new GamesRepository();
+        private NotesRepository _notesRepository = new NotesRepository();
 
         public async Task Create(SteamAppDto game)
         {
@@ -30,6 +31,16 @@ namespace SteamGameNotes.Service
         public async Task Delete(long appId)
         {
             await _gamesRepository.Delete(appId);
+            _notesRepository.Delete(appId);
+        }
+
+        public async Task SaveNotes(long appid, string note)
+        {
+            await _notesRepository.SaveNotes(appid, note);
+        }
+        public async Task<string> GetNotes(long appid)
+        {
+            return await _notesRepository.GetNotes(appid);
         }
     }
 }

@@ -9,7 +9,7 @@
         Topmost="True"
         Background="{StaticResource ColorBackground}"
         WindowStyle="ToolWindow" 
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" Unloaded="Window_Unloaded" Loaded="Window_Loaded">
 
     <Window.Resources>
         <Style TargetType="TextBox">
@@ -81,7 +81,7 @@
                    HorizontalAlignment="Left"/>
         </StackPanel>
 
-        <TextBox 
+        <TextBox x:Name="TxtNotes" 
             Margin="0,52,0,0" 
             AcceptsTab="True" 
             UndoLimit="1000" 
