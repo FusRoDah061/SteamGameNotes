@@ -56,14 +56,10 @@
             VerticalAlignment="Top" 
             FontSize="14" 
             Foreground="{DynamicResource ColorTypo}"/>
-        
-        <controls:GameItem 
-            Height="45"
-            VerticalAlignment="Top"
-            GameName="DEATHLOOP" 
-            GameAppId="1252330" 
-            Margin="0,85,0,0"/>
 
+        <ScrollViewer Margin="0,85,0,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="PnlGameList" CanVerticallyScroll="True" />
+        </ScrollViewer>
     </Grid>
 
 </Window>

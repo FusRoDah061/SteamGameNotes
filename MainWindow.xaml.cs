@@ -1,4 +1,5 @@
-﻿using SteamGameNotes.Service;
+﻿using SteamGameNotes.Controls;
+using SteamGameNotes.Service;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -29,7 +30,11 @@ namespace SteamGameNotes
 
             if(game != null)
             {
-                MessageBox.Show(game.appid.ToString());
+                GameItem item = new GameItem();
+                item.GameName = game.name;
+                item.GameAppId = game.appid;
+
+                PnlGameList.Children.Add(item);
             }
         }
 
