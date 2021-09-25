@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamGameNotes", "SteamGameNotes.csproj", "{8DAD9F47-01A2-48F4-9D8A-828170826246}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DAD9F47-01A2-48F4-9D8A-828170826246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DAD9F47-01A2-48F4-9D8A-828170826246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DAD9F47-01A2-48F4-9D8A-828170826246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DAD9F47-01A2-48F4-9D8A-828170826246}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23F62AD9-6E92-4469-BAF6-E79662C38ACA}
+	EndGlobalSection
+EndGlobal
