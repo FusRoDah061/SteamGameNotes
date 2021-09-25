@@ -27,7 +27,10 @@ namespace SteamGameNotes
 
             var game = await steamService.GetSteamApp(TxtSearchGame.Text);
 
-            MessageBox.Show(game.appid.ToString());
+            if(game != null)
+            {
+                MessageBox.Show(game.appid.ToString());
+            }
         }
 
         private void TxtSearchGame_LostFocus(object sender, RoutedEventArgs e)

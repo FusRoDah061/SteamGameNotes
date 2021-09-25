@@ -5,7 +5,7 @@
     <SolidColorBrush x:Key="ColorBackground" Color="#29303A"/>
     <SolidColorBrush x:Key="ColorTypo" Color="#808080"/>
     <SolidColorBrush x:Key="ColorText" Color="#C5CBD8"/>
-    <SolidColorBrush x:Key="ColorBackgroundDarker" Color="#1E2024"/>
+    <SolidColorBrush x:Key="ColorBackgroundDarker" Color="#23252B"/>
     <SolidColorBrush x:Key="ColorBackgroundDarkerHover" Color="#17181B"/>
 
     <Style TargetType="TextBox">
