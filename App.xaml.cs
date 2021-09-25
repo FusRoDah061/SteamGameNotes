@@ -15,19 +15,20 @@ namespace SteamGameNotes
 
         public App()
         {
-            HotkeyManager.Current.AddOrReplace("ShowWindowShiftTab", Key.Tab, ModifierKeys.Shift, OnToggleWindow);
+            HotkeyManager.Current.AddOrReplace("ShowWindowShiftTab", Key.Tab, ModifierKeys.Shift, true, OnToggleWindow);
         }
 
         private void OnToggleWindow(object sender, HotkeyEventArgs e)
         {
-            if (Current.MainWindow == null)
+            if (Current.Windows.Count == 0)
             {
                 Current.MainWindow = new MainWindow();
                 Current.MainWindow.Show();
             }
             else
             {
-                Current.MainWindow.Close();
+                for (int i = 0; i < Current.Windows.Count; i++)
+                    Current.Windows[i].Close();
             }
         }
 
