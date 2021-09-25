@@ -2,7 +2,9 @@
 using SteamGameNotes.DTO;
 using SteamGameNotes.Service;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SteamGameNotes
@@ -25,11 +27,53 @@ namespace SteamGameNotes
 
         private GameItem _buildGameItem(SteamAppDto game)
         {
+            var contextMenu = new ContextMenu();
+            var menuItem = new MenuItem();
+            menuItem.Header = "Remove game";
+            menuItem.Click += OnDeleteGame;
+            contextMenu.Items.Add(menuItem);
+
             GameItem item = new GameItem();
             item.GameName = game.name;
             item.GameAppId = game.appid;
+            item.ContextMenu = contextMenu;
+
+            item.MouseLeftButtonUp += OnGameItemClick;
 
             return item;
+        }
+
+        private async void OnDeleteGame(object sender, RoutedEventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+            var contextMenu = (ContextMenu)menuItem.Parent;
+            var gameItem = (GameItem)contextMenu.PlacementTarget;
+
+            await _gamesService.Delete(gameItem.GameAppId);
+
+            await _refreshGameList();
+        }
+
+        private async Task _refreshGameList()
+        {
+            var games = await _gamesService.ListGames();
+
+            PnlGameList.Children.Clear();
+            foreach (var game in games)
+            {
+                PnlGameList.Children.Add(_buildGameItem(game));
+            }
+        }
+
+        private void OnGameItemClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var gameItem = (GameItem)sender;
+
+            Notes notes = new Notes(new SteamAppDto(gameItem.GameAppId, gameItem.GameName));
+            notes.Left = this.Left;
+            notes.Top = this.Top;
+            notes.Show();
+            Close();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -73,12 +117,7 @@ namespace SteamGameNotes
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var games = await _gamesService.ListGames();
-
-            foreach (var game in games)
-            {
-                PnlGameList.Children.Add(_buildGameItem(game));
-            }
+            await _refreshGameList();
         }
     }
 }

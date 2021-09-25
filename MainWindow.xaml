@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SteamGameNotes" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="400"
+        Title="Game Notes" Height="550" Width="400"
         Topmost="True"
         Background="{StaticResource ColorBackground}" 
-        Loaded="Window_Loaded" >
+        Loaded="Window_Loaded" 
+        WindowStyle="ToolWindow" 
+        WindowStartupLocation="CenterOwner" >
 
     <Grid>
         <TextBox x:Name="TxtSearchGame" 

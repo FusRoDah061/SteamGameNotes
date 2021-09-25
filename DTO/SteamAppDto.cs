@@ -8,6 +8,14 @@ namespace SteamGameNotes.DTO
         public long appid { get; set; }
         public string name { get; set; }
 
+        public SteamAppDto() { /* Needed for deserialization */ }
+
+        public SteamAppDto(long appid, string name)
+        {
+            this.appid = appid;
+            this.name = name;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is SteamAppDto dto &&

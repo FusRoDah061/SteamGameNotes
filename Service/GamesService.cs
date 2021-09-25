@@ -26,5 +26,10 @@ namespace SteamGameNotes.Service
         {
             return await _gamesRepository.ListGames();
         }
+
+        public async Task Delete(long appId)
+        {
+            await _gamesRepository.Delete(appId);
+        }
     }
 }

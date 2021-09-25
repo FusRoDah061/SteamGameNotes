@@ -22,9 +22,7 @@ namespace SteamGameNotes.Persistence
             var games = await ListGames();
             games.Add(game);
 
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(games, options);
-            File.WriteAllBytes(Path.Combine(BASE_DIRECTORY, JSON_NAME), jsonBytes);
+            _writeFile(games);
         }
 
         public async Task<List<SteamAppDto>> ListGames()
@@ -36,6 +34,21 @@ namespace SteamGameNotes.Persistence
             }
 
             return new List<SteamAppDto>();
+        }
+
+        public async Task Delete(long appId)
+        {
+            var games = await ListGames();
+            games.RemoveAll((game) => { return game.appid == appId; });
+
+            _writeFile(games);
+        }
+
+        private void _writeFile(List<SteamAppDto> games)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(games, options);
+            File.WriteAllBytes(Path.Combine(BASE_DIRECTORY, JSON_NAME), jsonBytes);
         }
     }
 }

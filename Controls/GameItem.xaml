@@ -7,7 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="45" d:DesignWidth="350"
              Cursor="Hand" 
-             Background="{DynamicResource ColorBackground}" MouseEnter="root_MouseEnter" MouseLeave="root_MouseLeave">
+             Background="{DynamicResource ColorBackground}" 
+             MouseEnter="root_MouseEnter" 
+             MouseLeave="root_MouseLeave">
+  
     <Grid>
         <Image x:Name="ImgGameImage" 
                Margin="10,7,0,7" 
@@ -21,7 +24,8 @@
                    Text="{Binding GameName, ElementName=root}" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Center" 
-                   Foreground="{DynamicResource ColorText}" Panel.ZIndex="10"/>
+                   Foreground="{DynamicResource ColorText}" 
+                   Panel.ZIndex="10"/>
         <Image HorizontalAlignment="Right" Height="14" Source="/Resources/chevron_icon.png" Margin="0,0,15,0" Panel.ZIndex="5" VerticalAlignment="Center" />
     </Grid>
 </UserControl>
