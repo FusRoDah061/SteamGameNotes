@@ -105,7 +105,7 @@
             Foreground="{DynamicResource ColorText}" 
             AcceptsReturn="True" 
             AutoWordSelection="True" 
-        TextWrapping="WrapWithOverflow" />
+            TextWrapping="WrapWithOverflow" />
     </Grid>
 
 </Window>
