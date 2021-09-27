@@ -59,6 +59,8 @@ namespace SteamGameNotes
             {
                 Console.WriteLine(ex);
             }
+
+            TxtNotes.Focus();
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)

@@ -4,8 +4,11 @@
 
     <SolidColorBrush x:Key="ColorBackground" Color="#1D1F24"/>
     <SolidColorBrush x:Key="ColorBackgroundBlueHover" Color="#22272E"/>
+    <SolidColorBrush x:Key="ColorBackgroundGreenHover" Color="#222625"/>
     <SolidColorBrush x:Key="ColorIcons" Color="#B7CCD5"/>
     <SolidColorBrush x:Key="ColorText" Color="#ADC0CA"/>
+    <SolidColorBrush x:Key="ColorTextBlue" Color="#76B1D5"/>
+    <SolidColorBrush x:Key="ColorTextGreen" Color="#C4D5A5"/>
     <SolidColorBrush x:Key="ColorTextTitles" Color="#5099BD"/>
     <SolidColorBrush x:Key="ColorBackgroundContrast" Color="#434953"/>
     <SolidColorBrush x:Key="ColorBackgroundContrastHover" Color="#363A42"/>

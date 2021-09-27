@@ -1,5 +1,6 @@
 ﻿using SteamGameNotes.Controls;
 using SteamGameNotes.DTO;
+using SteamGameNotes.Helper;
 using SteamGameNotes.Service;
 using System;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace SteamGameNotes
     {
         private Brush _txtForeground = null;
         private GamesService _gamesService = new GamesService();
+        private long _steamActiveGameId = 0L;
 
         public MainWindow()
         {
@@ -23,6 +25,12 @@ namespace SteamGameNotes
             // Placeholder
             TxtSearchGame.Foreground = (SolidColorBrush)FindResource("ColorIcons");
             TxtSearchGame.Text = TxtSearchGame.Tag.ToString();
+
+            try
+            {
+                _steamActiveGameId = SteamHelper.GetActiveGameAppId();
+            }
+            catch(Exception ex) { }
         }
 
         private GameItem _buildGameItem(SteamAppDto game)
@@ -35,7 +43,8 @@ namespace SteamGameNotes
 
             GameItem item = new GameItem();
             item.GameName = game.name;
-            item.GameAppId = game.appid;
+            item.AppId = game.appid;
+            item.IsPlaying = game.appid.Equals(_steamActiveGameId);
             item.ContextMenu = contextMenu;
 
             item.MouseLeftButtonUp += OnGameItemClick;
@@ -49,7 +58,7 @@ namespace SteamGameNotes
             var contextMenu = (ContextMenu)menuItem.Parent;
             var gameItem = (GameItem)contextMenu.PlacementTarget;
 
-            await _gamesService.Delete(gameItem.GameAppId);
+            await _gamesService.Delete(gameItem.AppId);
 
             await _refreshGameList();
         }
@@ -69,7 +78,7 @@ namespace SteamGameNotes
         {
             var gameItem = (GameItem)sender;
 
-            Notes notes = new Notes(new SteamAppDto(gameItem.GameAppId, gameItem.GameName));
+            Notes notes = new Notes(new SteamAppDto(gameItem.AppId, gameItem.GameName));
             notes.Left = this.Left;
             notes.Top = this.Top;
             notes.Show();

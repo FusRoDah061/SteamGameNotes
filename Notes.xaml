@@ -42,7 +42,7 @@
     <Grid>
         <Grid 
             Height="52"
-            Background="{StaticResource ColorBackgroundContrast}" 
+            Background="{StaticResource ColorBackground}" 
             VerticalAlignment="Top">
             <Button 
                 HorizontalAlignment="Left" 
@@ -105,7 +105,7 @@
             Foreground="{DynamicResource ColorText}" 
             AcceptsReturn="True" 
             AutoWordSelection="True" 
-            TextWrapping="WrapWithOverflow" />
+            TextWrapping="WrapWithOverflow"/>
     </Grid>
 
 </Window>

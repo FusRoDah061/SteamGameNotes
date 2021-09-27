@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
+using SteamGameNotes.Helper;
 
 namespace SteamGameNotes
 {
@@ -25,45 +26,8 @@ namespace SteamGameNotes
             HotkeyManager.Current.AddOrReplace("HideWindowEsc", Key.Escape, ModifierKeys.None, false, OnHideWindow);
         }
 
-        private void _findSteamPath()
-        {
-            Process[] steamCandidateProcesses = Process.GetProcessesByName("steam");
-
-            if(steamCandidateProcesses.Length > 0)
-            {
-                _steamFolder = steamCandidateProcesses[0].MainModule.FileName.Replace(
-                    steamCandidateProcesses[0].MainModule.ModuleName,
-                    ""
-                );
-            }
-            else
-            {
-                throw new InvalidOperationException("Steam is not running.");
-            }
-        }
-
-        private List<string> _getLogFileLines (string filePath)
-        {
-            Stream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            StreamReader streamReader = new StreamReader(stream);
-
-            List<string> lines = new List<string>();
-            string line = null;
-
-            do
-            {
-                line = streamReader.ReadLine();
-
-                if (line != null)
-                    lines.Add(line);
-            } while (line != null);
-
-            return lines;
-        }
-
         private bool _isOverlayOpen()
-        {
-            var gameOverlayLog = Path.Combine(_steamFolder, "GameOverlayUI.exe.log");
+        { 
             var logLocked = false;
             var logReadTries = 0;
 
@@ -77,7 +41,7 @@ namespace SteamGameNotes
                 Thread.Sleep(200);
 
                 try {
-                    var logLines = _getLogFileLines(gameOverlayLog);
+                    var logLines = SteamHelper.GetGameOverlayLogLines(_steamFolder);
                     var lastLine = logLines[logLines.Count - 1];
 
                     return lastLine.ToLower().Contains("overlay enable");
@@ -98,7 +62,7 @@ namespace SteamGameNotes
             try
             {
                 if (String.IsNullOrEmpty(_steamFolder))
-                    _findSteamPath();
+                    _steamFolder = SteamHelper.FindSteamPath();
 
                 if (_isOverlayOpen())
                 {
@@ -143,7 +107,7 @@ namespace SteamGameNotes
 
             try
             {
-                _findSteamPath();
+                _steamFolder = SteamHelper.FindSteamPath();
             }
             catch (InvalidOperationException ex)
             {
