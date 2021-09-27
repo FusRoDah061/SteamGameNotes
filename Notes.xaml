@@ -9,7 +9,10 @@
         Topmost="True"
         Background="{StaticResource ColorBackground}"
         WindowStyle="ToolWindow" 
-        WindowStartupLocation="CenterOwner" Unloaded="Window_Unloaded" Loaded="Window_Loaded">
+        WindowStartupLocation="CenterOwner" 
+        Unloaded="Window_Unloaded" 
+        Loaded="Window_Loaded" 
+        Icon="/Resources/tray.ico">
 
     <Window.Resources>
         <Style TargetType="TextBox">

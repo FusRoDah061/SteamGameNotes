@@ -10,7 +10,8 @@
         Background="{StaticResource ColorBackground}" 
         Loaded="Window_Loaded" 
         WindowStyle="ToolWindow" 
-        WindowStartupLocation="CenterOwner" >
+        WindowStartupLocation="CenterOwner" 
+        Icon="/Resources/tray.ico" >
 
     <Grid>
         <TextBox x:Name="TxtSearchGame" 
