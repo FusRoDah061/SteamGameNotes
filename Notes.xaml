@@ -38,13 +38,12 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <Grid>
-        <StackPanel 
+        <Grid 
             Height="52"
             Background="{StaticResource ColorBackgroundDarker}" 
-            VerticalAlignment="Top" 
-            Orientation="Horizontal">
+            VerticalAlignment="Top">
             <Button 
                 HorizontalAlignment="Left" 
                 Margin="10,0,0,0" 
@@ -60,15 +59,12 @@
                     <Image.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="-1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
                         </TransformGroup>
                     </Image.RenderTransform>
                 </Image>
             </Button>
             <Image x:Name="ImgGameImage" 
-               Margin="10,12,0,12" 
+               Margin="52,11,0,11" 
                HorizontalAlignment="Left" 
                Height="30" 
                Width="80"
@@ -78,11 +74,26 @@
                    Foreground="{DynamicResource ColorText}"
                    Text="GameName"
                    Panel.ZIndex="10" 
-                   Margin="10,0,0,0" 
+                   Margin="137,0,0,0" 
                    FontSize="14" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Left"/>
-        </StackPanel>
+            <Button 
+                HorizontalAlignment="Right" 
+                Margin="0,0,10,0" 
+                VerticalAlignment="Center" 
+                Width="32" 
+                Height="32" 
+                Foreground="{DynamicResource ColorTypo}" 
+                Panel.ZIndex="1"
+                Click="Button_Click_1" >
+                <Image 
+                    Height="14" 
+                    Source="/Resources/save_icon.png" 
+                    RenderTransformOrigin="0.5,0.5">
+                </Image>
+            </Button>
+        </Grid>
 
         <TextBox x:Name="TxtNotes" 
             Margin="0,52,0,0" 

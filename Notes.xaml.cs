@@ -60,5 +60,10 @@ namespace SteamGameNotes
                 Console.WriteLine(ex);
             }
         }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await _gameService.SaveNotes(_game.appid, TxtNotes.Text);
+        }
     }
 }

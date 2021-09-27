@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="Resources\add_icon.png" />
     <None Remove="Resources\chevron_icon.png" />
+    <None Remove="Resources\save_icon.png" />
     <None Remove="Resources\search_icon.png" />
     <None Remove="Resources\tray.ico" />
   </ItemGroup>
@@ -22,6 +23,7 @@
   <ItemGroup>
     <Resource Include="Resources\add_icon.png" />
     <Resource Include="Resources\chevron_icon.png" />
+    <Resource Include="Resources\save_icon.png" />
     <Resource Include="Resources\search_icon.png" />
     <Resource Include="Resources\tray.ico" />
   </ItemGroup>
