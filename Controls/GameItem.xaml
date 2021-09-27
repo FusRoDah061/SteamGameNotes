@@ -24,7 +24,7 @@
                    Text="{Binding GameName, ElementName=root}" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Center" 
-                   Foreground="{DynamicResource ColorText}" 
+                   Foreground="{DynamicResource ColorTextTitles}" 
                    Panel.ZIndex="10"/>
         <Image HorizontalAlignment="Right" Height="14" Source="/Resources/chevron_icon.png" Margin="0,0,15,0" Panel.ZIndex="5" VerticalAlignment="Center" />
     </Grid>

@@ -21,7 +21,7 @@ namespace SteamGameNotes
             _txtForeground = TxtSearchGame.Foreground;
 
             // Placeholder
-            TxtSearchGame.Foreground = (SolidColorBrush)FindResource("ColorTypo");
+            TxtSearchGame.Foreground = (SolidColorBrush)FindResource("ColorIcons");
             TxtSearchGame.Text = TxtSearchGame.Tag.ToString();
         }
 
@@ -102,7 +102,7 @@ namespace SteamGameNotes
             if (String.IsNullOrEmpty(TxtSearchGame.Text))
             {
                 TxtSearchGame.Text = TxtSearchGame.Tag.ToString();
-                TxtSearchGame.Foreground = (SolidColorBrush)FindResource("ColorTypo");
+                TxtSearchGame.Foreground = (SolidColorBrush)FindResource("ColorIcons");
             }
         }
 

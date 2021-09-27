@@ -2,11 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:SteamGameNotes">
 
-    <SolidColorBrush x:Key="ColorBackground" Color="#29303A"/>
-    <SolidColorBrush x:Key="ColorTypo" Color="#808080"/>
-    <SolidColorBrush x:Key="ColorText" Color="#C5CBD8"/>
-    <SolidColorBrush x:Key="ColorBackgroundDarker" Color="#23252B"/>
-    <SolidColorBrush x:Key="ColorBackgroundDarkerHover" Color="#17181B"/>
+    <SolidColorBrush x:Key="ColorBackground" Color="#1D1F24"/>
+    <SolidColorBrush x:Key="ColorBackgroundBlueHover" Color="#22272E"/>
+    <SolidColorBrush x:Key="ColorIcons" Color="#B7CCD5"/>
+    <SolidColorBrush x:Key="ColorText" Color="#ADC0CA"/>
+    <SolidColorBrush x:Key="ColorTextTitles" Color="#5099BD"/>
+    <SolidColorBrush x:Key="ColorBackgroundContrast" Color="#434953"/>
+    <SolidColorBrush x:Key="ColorBackgroundContrastHover" Color="#363A42"/>
 
     <Style TargetType="TextBox">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -25,18 +27,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Grid>
-                        <Border x:Name="background" Background="{StaticResource ColorBackgroundDarker}" CornerRadius="4"/>
+                        <Border x:Name="background" Background="{StaticResource ColorBackgroundContrast}" CornerRadius="4"/>
                         <ContentPresenter HorizontalAlignment="Left"
                             VerticalAlignment="Center" />
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="true">
-                            <Setter TargetName="background" Property="Background" Value="{StaticResource ColorBackgroundDarkerHover}" />
+                            <Setter TargetName="background" Property="Background" Value="{StaticResource ColorBackgroundContrastHover}" />
                         </Trigger>
 
                         <DataTrigger Binding="{Binding Path=Text}" Value="">
-                            <Setter Property="Foreground" Value="LightGray"/>
+                            <Setter Property="Foreground" Value="{StaticResource ColorText}"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -51,13 +53,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Border x:Name="background" Background="{StaticResource ColorBackgroundDarker}" CornerRadius="4"/>
+                        <Border x:Name="background" Background="{StaticResource ColorBackgroundContrast}" CornerRadius="4"/>
                         <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="background" Property="Background" Value="{StaticResource ColorBackgroundDarkerHover}" />
+                            <Setter TargetName="background" Property="Background" Value="{StaticResource ColorBackgroundContrastHover}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

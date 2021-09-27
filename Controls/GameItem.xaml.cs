@@ -51,7 +51,7 @@ namespace SteamGameNotes.Controls
 
         private void root_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            root.Background = (SolidColorBrush)FindResource("ColorBackgroundDarker");
+            root.Background = (SolidColorBrush)FindResource("ColorBackgroundBlueHover");
         }
 
         private void root_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)

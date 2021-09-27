@@ -42,7 +42,7 @@
     <Grid>
         <Grid 
             Height="52"
-            Background="{StaticResource ColorBackgroundDarker}" 
+            Background="{StaticResource ColorBackgroundContrast}" 
             VerticalAlignment="Top">
             <Button 
                 HorizontalAlignment="Left" 
@@ -50,8 +50,8 @@
                 VerticalAlignment="Center" 
                 Width="32" 
                 Height="32" 
-                Foreground="{DynamicResource ColorTypo}" 
-                Panel.ZIndex="1" Click="Button_Click">
+                Panel.ZIndex="1" 
+                Click="Button_Click">
                 <Image 
                     Height="14" 
                     Source="/Resources/chevron_icon.png" 
@@ -71,7 +71,8 @@
                Panel.ZIndex="5"/>
             <TextBlock x:Name="LblGameName" 
                    TextWrapping="Wrap" 
-                   Foreground="{DynamicResource ColorText}"
+                   Foreground="{DynamicResource ColorTextTitles}"
+                       FontWeight="Bold"
                    Text="GameName"
                    Panel.ZIndex="10" 
                    Margin="137,0,0,0" 
@@ -84,7 +85,6 @@
                 VerticalAlignment="Center" 
                 Width="32" 
                 Height="32" 
-                Foreground="{DynamicResource ColorTypo}" 
                 Panel.ZIndex="1"
                 Click="Button_Click_1" >
                 <Image 

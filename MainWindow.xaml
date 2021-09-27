@@ -15,7 +15,7 @@
 
     <Grid>
         <TextBox x:Name="TxtSearchGame" 
-            Margin="10,10,46,0" 
+            Margin="10,10,51,0" 
             TextWrapping="NoWrap" 
             VerticalAlignment="Top" 
             Height="36" 
@@ -44,7 +44,6 @@
             VerticalAlignment="Top" 
             Width="36" 
             Height="36" 
-            Foreground="{DynamicResource ColorTypo}" 
             Click="Button_Click" 
             Panel.ZIndex="1">
             <Image 
@@ -59,7 +58,8 @@
             Margin="10,56,0,0" 
             VerticalAlignment="Top" 
             FontSize="14" 
-            Foreground="{DynamicResource ColorTypo}"/>
+            Foreground="{DynamicResource ColorTextTitles}" 
+            FontWeight="Bold"/>
 
         <ScrollViewer Margin="0,85,0,0" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="PnlGameList" CanVerticallyScroll="True" />
