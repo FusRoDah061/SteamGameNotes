@@ -24,7 +24,7 @@ namespace SteamGameNotes.Service
             _httpClient = new HttpClient();
         }
 
-        public async Task<SteamAppDto> GetSteamApp(string name)
+        public async Task<SteamAppDto> GetSteamAppByName(string name)
         {
             await CreateSteamAppsCache();
             var appList = await _fetchCachedSteamApps();
@@ -32,6 +32,17 @@ namespace SteamGameNotes.Service
             return appList.Find((app) =>
             {
                 return app.name.ToLower().Equals(name.ToLower());
+            });
+        }
+
+        public async Task<SteamAppDto> GetSteamAppByAppId(long appId)
+        {
+            await CreateSteamAppsCache();
+            var appList = await _fetchCachedSteamApps();
+
+            return appList.Find((app) =>
+            {
+                return app.appid.Equals(appId);
             });
         }
 

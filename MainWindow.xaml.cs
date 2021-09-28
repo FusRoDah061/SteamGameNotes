@@ -93,8 +93,18 @@ namespace SteamGameNotes
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             var steamService = new SteamService();
+            var searchText = TxtSearchGame.Text;
+            SteamAppDto game = null;
 
-            var game = await steamService.GetSteamApp(TxtSearchGame.Text);
+            try
+            {
+                var appId = long.Parse(searchText);
+                game = await steamService.GetSteamAppByAppId(appId);
+            }
+            catch
+            {
+                game = await steamService.GetSteamAppByName(searchText);
+            }
 
             if(game != null)
             {

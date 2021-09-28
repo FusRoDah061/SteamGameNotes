@@ -22,7 +22,7 @@
             MaxLines="1"  
             Padding="38,0,0,0" 
             CharacterCasing="Upper" 
-            Tag="Search game"
+            Tag="Search by game name or appid"
             IsUndoEnabled="False"
             Panel.ZIndex="1" 
             LostFocus="TxtSearchGame_LostFocus" 
