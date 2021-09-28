@@ -1,4 +1,5 @@
-﻿using SteamGameNotes.DTO;
+﻿using log4net;
+using SteamGameNotes.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace SteamGameNotes.Service
 {
-    class SteamService
+    public class SteamService
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(SteamService));
+
         private const string STEAM_API_URL = "https://api.steampowered.com/";
         private const string CACHE_FILENAME = "steamapps.json";
         private string CACHE_DIRECTORY = Path.GetTempPath() + "SteamGameNotes";
@@ -36,17 +39,21 @@ namespace SteamGameNotes.Service
         {
             if (!_isSteamAppsCached())
             {
+                log.Info("Steam apps not cached");
                 await _createSteamAppsCache();
             }
         }
 
         public void InvalidateCache()
         {
+            log.Info("Removing steam apps cache file");
             File.Delete(Path.Combine(CACHE_DIRECTORY, CACHE_FILENAME));
         }
 
         private async Task<List<SteamAppDto>> _fetchCachedSteamApps()
         {
+            log.Debug("Reading cached games from " + Path.Combine(CACHE_DIRECTORY, CACHE_FILENAME));
+
             using FileStream jsonStream = File.OpenRead(Path.Combine(CACHE_DIRECTORY, CACHE_FILENAME));
 
             var cache = await JsonSerializer.DeserializeAsync<GetAppListResponseDto>(jsonStream);
@@ -59,16 +66,24 @@ namespace SteamGameNotes.Service
             string path = "ISteamApps/GetAppList/v2/";
             _httpClient.BaseAddress = new Uri(STEAM_API_URL);
 
+            log.Info("Creating steam apps cache. Enpoint url: " + STEAM_API_URL + path);
+
             string appsJson = null;
             HttpResponseMessage response = await _httpClient.GetAsync(path);
 
             if (response.IsSuccessStatusCode)
             {
                 appsJson = await response.Content.ReadAsStringAsync();
-            }
 
-            Directory.CreateDirectory(CACHE_DIRECTORY);
-            await File.WriteAllTextAsync(Path.Combine(CACHE_DIRECTORY, CACHE_FILENAME), appsJson);
+                log.Info("Writing cache file to " + Path.Combine(CACHE_DIRECTORY, CACHE_FILENAME));
+
+                Directory.CreateDirectory(CACHE_DIRECTORY);
+                await File.WriteAllTextAsync(Path.Combine(CACHE_DIRECTORY, CACHE_FILENAME), appsJson);
+            }
+            else
+            {
+                log.Warn("Unsuccessful response from steam api: " + response.StatusCode + " " + response.ReasonPhrase);
+            }
         }
 
         private bool _isSteamAppsCached ()

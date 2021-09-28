@@ -1,4 +1,5 @@
-﻿using SteamGameNotes.DTO;
+﻿using log4net;
+using SteamGameNotes.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,12 +10,16 @@ namespace SteamGameNotes.Persistence
 {
     public class GamesRepository
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(GamesRepository));
+
         private const string JSON_NAME = "games.json";
         private string BASE_DIRECTORY = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\SteamGameNotes";
 
         public GamesRepository()
         {
             Directory.CreateDirectory(BASE_DIRECTORY);
+
+            log.Info("Games will be saved to " + Path.Combine(BASE_DIRECTORY, JSON_NAME));
         }
 
         public async Task Create (SteamAppDto game)
@@ -31,6 +36,10 @@ namespace SteamGameNotes.Persistence
             {
                 using FileStream jsonStream = File.OpenRead(Path.Combine(BASE_DIRECTORY, JSON_NAME));
                return await JsonSerializer.DeserializeAsync<List<SteamAppDto>>(jsonStream);
+            }
+            else
+            {
+                log.Debug("Games json does not exist");
             }
 
             return new List<SteamAppDto>();

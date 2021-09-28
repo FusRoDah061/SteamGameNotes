@@ -5,17 +5,18 @@ using System.Windows.Input;
 using NHotkey;
 using SteamGameNotes.Service;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using System;
 using System.IO;
 using System.Threading;
-using System.Collections.Generic;
 using SteamGameNotes.Helper;
+using log4net;
 
 namespace SteamGameNotes
 {
     public partial class App : Application
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(App));
+
         private TaskbarIcon _notifyIcon;
         private SteamService _steamService = new SteamService();
         private string _steamFolder;
@@ -31,26 +32,33 @@ namespace SteamGameNotes
             var logLocked = false;
             var logReadTries = 0;
 
+            log.Debug("Checking if steam overlay is open");
+
             do
-            {
+            {                
                 if (logReadTries > 50)
                     break;
 
                 logLocked = false;
 
+                log.Debug("Sleeping 200ms before reading overlay log");
                 Thread.Sleep(200);
 
                 try {
                     var logLines = SteamHelper.GetGameOverlayLogLines(_steamFolder);
                     var lastLine = logLines[logLines.Count - 1];
 
+                    log.Debug("Overlay log last line: " + lastLine);
+
                     return lastLine.ToLower().Contains("overlay enable");
                 }
                 catch (IOException ex)
                 {
+                    log.Warn("Error reading steam overlay log: ", ex);
+                    log.Debug($"Tried reading overlay log file {logReadTries} times.");
+
                     logLocked = true;
                     logReadTries++;
-                    Thread.Sleep(100);
                 }
             } while (logLocked);
 
@@ -62,10 +70,16 @@ namespace SteamGameNotes
             try
             {
                 if (String.IsNullOrEmpty(_steamFolder))
+                {
+                    log.Info("Steam folder is undefined");
                     _steamFolder = SteamHelper.FindSteamPath();
+                }
 
                 if (_isOverlayOpen())
                 {
+                    log.Info("Showing notes");
+                    log.Debug("Current window count: " + Current.Windows.Count);
+
                     if (Current.Windows.Count == 0)
                     {
                         Current.MainWindow = new MainWindow();
@@ -74,6 +88,9 @@ namespace SteamGameNotes
                 }
                 else
                 {
+                    log.Info("Hiding notes");
+                    log.Debug("Current window count: " + Current.Windows.Count);
+
                     if (Current.Windows.Count > 0)
                     {
                         for (int i = 0; i < Current.Windows.Count; i++)
@@ -83,7 +100,8 @@ namespace SteamGameNotes
             }
             catch(InvalidOperationException ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                log.Error("Error: ", ex);
+                MessageBox.Show(ex.Message, "Steam Game Notes Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -91,6 +109,8 @@ namespace SteamGameNotes
         {
             if (!_isOverlayOpen())
             {
+                log.Info("Hiding notes");
+
                 if (Current.Windows.Count > 0)
                 {
                     for (int i = 0; i < Current.Windows.Count; i++)
@@ -111,6 +131,7 @@ namespace SteamGameNotes
             }
             catch (InvalidOperationException ex)
             {
+                log.Error("Error: ", ex);
                 MessageBox.Show(ex.Message, "Steam Game Notes Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 

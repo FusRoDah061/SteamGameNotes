@@ -27,5 +27,10 @@ namespace SteamGameNotes.DTO
         {
             return HashCode.Combine(appid, name);
         }
+
+        public override string ToString()
+        {
+            return $"[appid={appid}, name={name}]";
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SteamGameNotes.Controls;
+﻿using log4net;
+using SteamGameNotes.Controls;
 using SteamGameNotes.DTO;
 using SteamGameNotes.Helper;
 using SteamGameNotes.Service;
@@ -13,6 +14,8 @@ namespace SteamGameNotes
 
     public partial class MainWindow : Window
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+
         private Brush _txtForeground = null;
         private GamesService _gamesService = new GamesService();
         private long _steamActiveGameId = 0L;
@@ -30,7 +33,9 @@ namespace SteamGameNotes
             {
                 _steamActiveGameId = SteamHelper.GetActiveGameAppId();
             }
-            catch(Exception ex) { }
+            catch(Exception ex) {
+                log.Error("Error getting game appId. ", ex);
+            }
         }
 
         private GameItem _buildGameItem(SteamAppDto game)
@@ -101,7 +106,7 @@ namespace SteamGameNotes
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    log.Error("Error adding game. ", ex);
                 }
             }
         }
