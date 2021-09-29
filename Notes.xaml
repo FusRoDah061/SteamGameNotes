@@ -1,4 +1,4 @@
-﻿<Window x:Class="SteamGameNotes.Notes"
+﻿<local:BaseWindow x:Class="SteamGameNotes.Notes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,8 @@
         WindowStartupLocation="CenterOwner" 
         Unloaded="Window_Unloaded" 
         Loaded="Window_Loaded" 
-        Icon="/Resources/tray.ico">
+        Icon="/Resources/tray.ico"
+        ShowInTaskbar="false">
 
     <Window.Resources>
         <Style TargetType="TextBox">
@@ -105,7 +106,7 @@
             Foreground="{DynamicResource ColorText}" 
             AcceptsReturn="True" 
             AutoWordSelection="True" 
-            TextWrapping="WrapWithOverflow"/>
+            TextWrapping="WrapWithOverflow" GotFocus="TxtNotes_GotFocus"/>
     </Grid>
 
-</Window>
+</local:BaseWindow>

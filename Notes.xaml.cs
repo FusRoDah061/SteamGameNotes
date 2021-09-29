@@ -1,4 +1,5 @@
-﻿using SteamGameNotes.DTO;
+﻿using log4net;
+using SteamGameNotes.DTO;
 using SteamGameNotes.Service;
 using System;
 using System.Windows;
@@ -6,8 +7,10 @@ using System.Windows.Media.Imaging;
 
 namespace SteamGameNotes
 {
-    public partial class Notes : Window
+    public partial class Notes : BaseWindow
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Notes));
+
         private GamesService _gameService = new GamesService();
         private SteamAppDto _game = null;
 
@@ -50,6 +53,8 @@ namespace SteamGameNotes
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            base.OnWindowLoaded();
+
             try
             {
                 string notes = await _gameService.GetNotes(_game.appid);
@@ -57,15 +62,18 @@ namespace SteamGameNotes
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
+                log.Warn("Error getting notes: ", ex);
             }
-
-            TxtNotes.Focus();
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             await _gameService.SaveNotes(_game.appid, TxtNotes.Text);
+        }
+
+        private void TxtNotes_GotFocus(object sender, RoutedEventArgs e)
+        {
+            base.RequestActivateWindow();
         }
     }
 }

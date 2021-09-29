@@ -12,7 +12,7 @@ using System.Windows.Media;
 namespace SteamGameNotes
 {
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : BaseWindow
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
 
@@ -132,6 +132,8 @@ namespace SteamGameNotes
 
         private void TxtSearchGame_GotFocus(object sender, RoutedEventArgs e)
         {
+            base.RequestActivateWindow();
+
             TxtSearchGame.Foreground = _txtForeground;
             if (TxtSearchGame.Text.Equals(TxtSearchGame.Tag))
             {
@@ -141,6 +143,7 @@ namespace SteamGameNotes
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            base.OnWindowLoaded();
             await _refreshGameList();
         }
     }
