@@ -24,7 +24,6 @@ namespace SteamGameNotes
         public App()
         {
             HotkeyManager.Current.AddOrReplace("ShowWindowShiftTab", Key.Tab, ModifierKeys.Shift, false, OnToggleWindow);
-            HotkeyManager.Current.AddOrReplace("HideWindowEsc", Key.Escape, ModifierKeys.None, false, OnHideWindow);
         }
 
         private bool _isOverlayOpen()
@@ -102,20 +101,6 @@ namespace SteamGameNotes
             {
                 log.Error("Error: ", ex);
                 MessageBox.Show(ex.Message, "Steam Game Notes Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void OnHideWindow(object sender, HotkeyEventArgs e)
-        {
-            if (!_isOverlayOpen())
-            {
-                log.Info("Hiding notes");
-
-                if (Current.Windows.Count > 0)
-                {
-                    for (int i = 0; i < Current.Windows.Count; i++)
-                        Current.Windows[i].Close();
-                }
             }
         }
 
