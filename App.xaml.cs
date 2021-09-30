@@ -1,8 +1,6 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using System.Windows;
-using NHotkey.Wpf;
 using System.Windows.Input;
-using NHotkey;
 using SteamGameNotes.Service;
 using System.Threading.Tasks;
 using System;
@@ -24,7 +22,8 @@ namespace SteamGameNotes
 
         public App()
         {
-            HotkeyManager.Current.AddOrReplace("ShowWindowShiftTab", Key.Tab, ModifierKeys.Shift, true, OnToggleWindow);
+            SimpleHotkeyManager.AddHotkey(Key.LeftShift, Key.Tab, OnToggleWindow);
+            SimpleHotkeyManager.AddHotkey(Key.Escape, OnHideWindow);
         }
 
         private bool _checkIfOverlayOpen()
@@ -65,12 +64,12 @@ namespace SteamGameNotes
                     retry = true;
                     retryCount++;
                 }
-            } while (retry && retryCount < 10);
+            } while (retry && retryCount < 20);
 
             return false;
         }
 
-        private void OnToggleWindow(object sender, HotkeyEventArgs e)
+        private void OnToggleWindow(object sender, EventArgs e)
         {
             log.Info("Toggling window");
 
@@ -82,7 +81,7 @@ namespace SteamGameNotes
                     _steamFolder = SteamHelper.FindSteamPath();
                 }
 
-                if(_isOverlayOpen)
+                if (_isOverlayOpen)
                 {
                     log.Info("Overlay not open. Hiding notes");
                     log.Debug("Current window count: " + Current.Windows.Count);
@@ -96,7 +95,7 @@ namespace SteamGameNotes
                     }
                 }
                 else if (_checkIfOverlayOpen())
-                { 
+                {
                     log.Info("Overlay open. Showing notes");
                     log.Debug("Current window count: " + Current.Windows.Count);
 
@@ -109,10 +108,29 @@ namespace SteamGameNotes
                     }
                 }
             }
-            catch(InvalidOperationException ex)
+            catch (InvalidOperationException ex)
             {
                 log.Error("Error: ", ex);
                 MessageBox.Show(ex.Message, "Steam Game Notes Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void OnHideWindow(object sender, EventArgs e)
+        {
+            log.Info("Hiding window");
+
+            if (_isOverlayOpen)
+            {
+                log.Info("Hiding notes");
+                log.Debug("Current window count: " + Current.Windows.Count);
+
+                _isOverlayOpen = false;
+
+                if (Current.Windows.Count > 0)
+                {
+                    for (int i = 0; i < Current.Windows.Count; i++)
+                        Current.Windows[i].Close();
+                }
             }
         }
 
@@ -141,6 +159,7 @@ namespace SteamGameNotes
         {
             _notifyIcon.Dispose();
             _steamService.InvalidateCache();
+
             base.OnExit(e);
         }
 
