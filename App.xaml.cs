@@ -20,52 +20,60 @@ namespace SteamGameNotes
         private TaskbarIcon _notifyIcon;
         private SteamService _steamService = new SteamService();
         private string _steamFolder;
+        private bool _isOverlayOpen = false;
 
         public App()
         {
-            HotkeyManager.Current.AddOrReplace("ShowWindowShiftTab", Key.Tab, ModifierKeys.Shift, false, OnToggleWindow);
+            HotkeyManager.Current.AddOrReplace("ShowWindowShiftTab", Key.Tab, ModifierKeys.Shift, true, OnToggleWindow);
         }
 
-        private bool _isOverlayOpen()
+        private bool _checkIfOverlayOpen()
         { 
-            var logLocked = false;
-            var logReadTries = 0;
+            var retry = false;
+            var retryCount = 0;
 
             log.Debug("Checking if steam overlay is open");
 
+            string logLastLine = null;
+
             do
             {                
-                if (logReadTries > 50)
-                    break;
-
-                logLocked = false;
+                retry = false;
 
                 log.Debug("Sleeping 200ms before reading overlay log");
                 Thread.Sleep(200);
 
                 try {
                     var logLines = SteamHelper.GetGameOverlayLogLines(_steamFolder);
-                    var lastLine = logLines[logLines.Count - 1];
+                    logLastLine = logLines[logLines.Count - 1];
 
-                    log.Debug("Overlay log last line: " + lastLine);
+                    log.Debug("Overlay log last line: " + logLastLine);
 
-                    return lastLine.ToLower().Contains("overlay enable");
+                    if (logLastLine.ToLower().Contains("overlay enable"))
+                    {
+                        return true;
+                    }
+
+                    retry = true;
+                    retryCount++;
                 }
                 catch (IOException ex)
                 {
                     log.Warn("Error reading steam overlay log: ", ex);
-                    log.Debug($"Tried reading overlay log file {logReadTries} times.");
+                    log.Debug($"Tried reading overlay log file {retryCount} times.");
 
-                    logLocked = true;
-                    logReadTries++;
+                    retry = true;
+                    retryCount++;
                 }
-            } while (logLocked);
+            } while (retry && retryCount < 10);
 
             return false;
         }
 
         private void OnToggleWindow(object sender, HotkeyEventArgs e)
         {
+            log.Info("Toggling window");
+
             try
             {
                 if (String.IsNullOrEmpty(_steamFolder))
@@ -74,26 +82,30 @@ namespace SteamGameNotes
                     _steamFolder = SteamHelper.FindSteamPath();
                 }
 
-                if (_isOverlayOpen())
+                if(_isOverlayOpen)
                 {
-                    log.Info("Showing notes");
+                    log.Info("Overlay not open. Hiding notes");
                     log.Debug("Current window count: " + Current.Windows.Count);
 
-                    if (Current.Windows.Count == 0)
-                    {
-                        Current.MainWindow = new MainWindow();
-                        Current.MainWindow.Show();
-                    }
-                }
-                else
-                {
-                    log.Info("Hiding notes");
-                    log.Debug("Current window count: " + Current.Windows.Count);
+                    _isOverlayOpen = false;
 
                     if (Current.Windows.Count > 0)
                     {
                         for (int i = 0; i < Current.Windows.Count; i++)
                             Current.Windows[i].Close();
+                    }
+                }
+                else if (_checkIfOverlayOpen())
+                { 
+                    log.Info("Overlay open. Showing notes");
+                    log.Debug("Current window count: " + Current.Windows.Count);
+
+                    _isOverlayOpen = true;
+
+                    if (Current.Windows.Count == 0)
+                    {
+                        Current.MainWindow = new MainWindow();
+                        Current.MainWindow.Show();
                     }
                 }
             }
@@ -131,5 +143,6 @@ namespace SteamGameNotes
             _steamService.InvalidateCache();
             base.OnExit(e);
         }
+
     }
 }
