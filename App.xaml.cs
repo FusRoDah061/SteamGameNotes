@@ -103,7 +103,11 @@ namespace SteamGameNotes
 
                     if (Current.Windows.Count == 0)
                     {
-                        Current.MainWindow = new MainWindow();
+                        var mainScreen = ScreenHandler.GetMainScreen();
+                        var mainWindow = new MainWindow();
+                        mainWindow.Left = (mainScreen.WorkingArea.Right / 2) - (mainWindow.Width / 2);
+                        mainWindow.Top = (mainScreen.WorkingArea.Bottom / 2) - (mainWindow.Height / 2);
+                        Current.MainWindow = mainWindow;
                         Current.MainWindow.Show();
                     }
                 }

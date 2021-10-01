@@ -53,12 +53,11 @@ namespace SteamGameNotes
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            base.OnWindowLoaded();
-
             try
             {
                 string notes = await _gameService.GetNotes(_game.appid);
                 TxtNotes.Text = notes;
+                TxtNotes.Focus();
             }
             catch(Exception ex)
             {
@@ -74,6 +73,11 @@ namespace SteamGameNotes
         private void TxtNotes_GotFocus(object sender, RoutedEventArgs e)
         {
             base.RequestActivateWindow();
+        }
+
+        private void BaseWindow_LostFocus(object sender, RoutedEventArgs e)
+        {
+            base.RequestDeactivateWindow();
         }
     }
 }

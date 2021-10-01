@@ -22,7 +22,13 @@ namespace SteamGameNotes
 
         public MainWindow()
         {
+            _initialize();
+        }
+
+        private void _initialize()
+        {
             InitializeComponent();
+
             _txtForeground = TxtSearchGame.Foreground;
 
             // Placeholder
@@ -33,7 +39,8 @@ namespace SteamGameNotes
             {
                 _steamActiveGameId = SteamHelper.GetActiveGameAppId();
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error("Error getting game appId. ", ex);
             }
         }
@@ -143,7 +150,9 @@ namespace SteamGameNotes
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            base.OnWindowLoaded();
+           
+
+            base.RequestDeactivateWindow();
             await _refreshGameList();
         }
     }

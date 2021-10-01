@@ -19,7 +19,7 @@ namespace SteamGameNotes
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_NOACTIVATE = 0x08000000;
 
-        protected void OnWindowLoaded()
+        protected void RequestDeactivateWindow()
         {
             WindowInteropHelper windowHelper = new WindowInteropHelper(this);
             SetWindowLong(windowHelper.Handle, GWL_EXSTYLE, GetWindowLong(windowHelper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
